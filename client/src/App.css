@@ -1,20 +1,14 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap') */
-
-
-/* .App{
-  min-height:100vh;
-  display: flex;
-  background-image: url("./images/background.png");
-  background-position: center;
-  background-size: cover;
-} */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
 
 .App{
+  font-family: "Roboto", sans-serif;
   min-height: 100vh;
-  background-image: url("./images/background.png");
-  background-position: center;
+  /* background-image: url("./images/background.png"); */
+  /* background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
-  filter: blur(1.7px);
+  background-size: cover; */
+  color: black;
+  /* filter: blur(1.7px); */
+  
 }
 
