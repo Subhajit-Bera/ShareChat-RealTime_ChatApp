@@ -5,13 +5,14 @@ const connectDB = require("./config/db");
 connectDB();
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const userRoutes = require("./routes/userRoutes");
+const userRoutes = require("./routes/chatRoutes");
 
 const app=express();
 
 app.use(express.json());
 
 app.use("/api/v1/user", userRoutes);
-
+app.use("/api/v1/chat", chatRoutes);
 // app.get("/",(req,res)=>{
 //     res.send("<h1>Hello</h1>");
 // })
