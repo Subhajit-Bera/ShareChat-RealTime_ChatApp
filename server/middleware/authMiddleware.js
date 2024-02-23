@@ -15,6 +15,7 @@ const isLogin = asyncHandler(async (req, res, next) => {
       //decodes token id
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
+      //We are findig the user and return it without the password: .select("-password");
       req.user = await User.findById(decoded.id).select("-password");
 
       next();

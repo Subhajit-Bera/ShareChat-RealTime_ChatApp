@@ -2,7 +2,7 @@ const express = require("express");
 const { isLogin } = require("../middleware/authMiddleware");
 
 const {
-    accessChat,
+    singleChat,
     // fetchChats,
     // createGroupChat,
     // removeFromGroup,
@@ -13,8 +13,10 @@ const {
 
 const router = express.Router();
 
-router.post("/", isLogin, accessChat);
+router.post("/", isLogin, singleChat);
 // router.get("/", isLogin, fetchChats);
+
+//Group Related Routes
 // router.post("/group", isLogin, createGroupChat);
 // router.put("/rename", isLogin, renameGroup);
 // router.put("/groupremove", isLogin, removeFromGroup);

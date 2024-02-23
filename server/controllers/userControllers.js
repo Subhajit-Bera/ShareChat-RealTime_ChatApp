@@ -61,6 +61,7 @@ const loginUser = asyncHandler(async (req, res) => {
     }
 });
 
+// Search & Get users details
 const searchUsers = asyncHandler(async (req, res) => {
     const keyword = req.query.search
         ? {
@@ -70,7 +71,8 @@ const searchUsers = asyncHandler(async (req, res) => {
             ],
         }
         : {};
-
+     
+    //Return all the users exclude the logged in user : find({ _id: { $ne: req.user._id }})   
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
     res.send(users);
 });
