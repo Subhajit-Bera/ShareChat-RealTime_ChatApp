@@ -10,7 +10,6 @@ const ChatProvider = ({ children }) => { //children is the whole app
         setUser(userInfo);
 
         if (!userInfo) navigate("/");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [navigate]);
     return (
         <ChatContext.Provider value={{ user, setUser }}>
