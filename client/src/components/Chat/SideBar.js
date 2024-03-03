@@ -12,17 +12,29 @@ import {
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
-import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react'
+import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react';
+import ProfileModal from '../subcomponent/ProfileModal';
+import {useNavigate} from "react-router-dom";
+import { useDisclosure } from "@chakra-ui/hooks";
+
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
-
+  const navigate=useNavigate();
 
   // Chat
   const { user } = ChatState();
+
+  const logoutHandler = () => {
+    localStorage.removeItem("userInfo");
+    navigate("/");
+  };
+
+
+
 
   return (
 
@@ -65,9 +77,11 @@ const SideBar = () => {
               />
             </MenuButton>
             <MenuList>
-              <MenuItem>My Profile</MenuItem>
+              <ProfileModal user={user}>
+                <MenuItem>My Profile</MenuItem>
+              </ProfileModal>
               <MenuDivider />
-              <MenuItem >Logout</MenuItem>
+              <MenuItem onClick={logoutHandler}>Logout</MenuItem>
             </MenuList>
           </Menu>
         </div>
