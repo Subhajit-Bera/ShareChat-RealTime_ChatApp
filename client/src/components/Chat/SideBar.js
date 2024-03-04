@@ -20,7 +20,7 @@ import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react';
-import ProfileModal from '../subcomponent/ProfileModal';
+import ProfileModal from '../ProfileModal';
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/hooks"; //For drawer
 import { Input } from "@chakra-ui/input";
@@ -39,8 +39,8 @@ const SideBar = () => {
 
 
   // ChatProvider:Context Api
-  const { user,setSelectedChat,chats,setChats,} = ChatState();
-  
+  const { user, setSelectedChat, chats, setChats, } = ChatState();
+
   const { isOpen, onOpen, onClose } = useDisclosure(); //for drawer
 
   const navigate = useNavigate();
@@ -87,17 +87,18 @@ const SideBar = () => {
     }
   };
 
-  const accessChat = async (userId)=>{
+  const accessChat = async (userId) => {
     try {
       setLoadingChat(true);
       const config = {
         headers: {
-          "Content-type": "application/json",
+          "Content-type": "application/json", //beacuse we are sending some json data
           Authorization: `Bearer ${user.token}`,
         },
       };
       const { data } = await axios.post(`/api/v1/chat`, { userId }, config);
 
+      //If chat alredy exist inside chats, it will append the chat into setChats:for that we use spread operator 
       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
       setSelectedChat(data);
       setLoadingChat(false);
@@ -127,12 +128,13 @@ const SideBar = () => {
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
+        {/* Search Bar & Icon */}
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           {/* Search Button */}
-          <Button variant="ghost" onClick={onOpen}>
+          <Button variant="ghost" onClick={onOpen} >
             {/* onClick={isOpen} : for the Drawer   */}
             <i className="fas fa-search"></i>
-            <Text display={{ base: "none", md: "flex" }} px={4}>
+            <Text display={{ base: "none", md: "flex" }} px={4} >
               Search User
             </Text>
           </Button>
@@ -145,6 +147,7 @@ const SideBar = () => {
 
 
         <div>
+          {/* Notification */}
           <Menu>
             <MenuButton p={1}>
               <BellIcon fontSize="3xl" m={1} />
@@ -152,7 +155,7 @@ const SideBar = () => {
             {/* <MenuList></MenuList> */}
           </Menu>
 
-
+          {/* Profile & Logout */}
           <Menu>
             <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
               <Avatar
@@ -186,7 +189,8 @@ const SideBar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button onClick={handleSearch}>Go</Button>
+              <Button bg="#FFEED9" onClick={handleSearch} _hover={{bg:"#39A7FF"}}
+              >Go</Button>
             </Box>
             {loading ? (
               <ChatLoading />
@@ -195,7 +199,7 @@ const SideBar = () => {
                 <UserListItem
                   key={user._id}
                   user={user}
-                  handleFunction={() => accessChat(user._id)}
+                  handleFunction={() => accessChat(user._id)} //accessChat function create chat whith the given user._id
                 />
               ))
             )}
