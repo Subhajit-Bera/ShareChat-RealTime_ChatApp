@@ -189,7 +189,7 @@ const SideBar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button bg="#39A7FF" onClick={handleSearch} _hover={{bg:"#209cff"}}
+              <Button bg="#39A7FF" color="white" onClick={handleSearch} _hover={{bg:"#209cff"}}
               >Go</Button>
             </Box>
             {loading ? (
