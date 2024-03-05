@@ -29,7 +29,7 @@ import axios from "axios";
 import ChatLoading from '../ChatLoading';
 import UserListItem from '../UserListItem';
 import { Spinner } from "@chakra-ui/spinner";
-
+import { getSender } from "../../GlobalFunctions/ChatFunctionality"
 
 const SideBar = () => {
   const [search, setSearch] = useState("");
@@ -39,7 +39,8 @@ const SideBar = () => {
 
 
   // ChatProvider:Context Api
-  const { user, setSelectedChat, chats, setChats, } = ChatState();
+  const { user, setSelectedChat, chats, setChats, notification,
+    setNotification, } = ChatState();
 
   const { isOpen, onOpen, onClose } = useDisclosure(); //for drawer
 
@@ -128,6 +129,7 @@ const SideBar = () => {
         p="5px 10px 5px 10px"
         borderWidth="5px"
       >
+
         {/* Search Bar & Icon */}
         <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
           {/* Search Button */}
@@ -152,7 +154,22 @@ const SideBar = () => {
             <MenuButton p={1}>
               <BellIcon fontSize="3xl" m={1} />
             </MenuButton>
-            {/* <MenuList></MenuList> */}
+            <MenuList pl={2}>
+              {!notification.length && "No New Messages"}
+              {notification.map((notif) => (
+                <MenuItem
+                  key={notif._id}
+                  onClick={() => {
+                    setSelectedChat(notif.chat);
+                    setNotification(notification.filter((n) => n !== notif));
+                  }}
+                >
+                  {notif.chat.isGroupChat
+                    ? `New Message in ${notif.chat.chatName}`
+                    : `New Message from ${getSender(user, notif.chat.users).name}`}
+                </MenuItem>
+              ))}
+            </MenuList>
           </Menu>
 
           {/* Profile & Logout */}
@@ -189,7 +206,7 @@ const SideBar = () => {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <Button bg="#39A7FF" color="white" onClick={handleSearch} _hover={{bg:"#209cff"}}
+              <Button bg="#39A7FF" color="white" onClick={handleSearch} _hover={{ bg: "#209cff" }}
               >Go</Button>
             </Box>
             {loading ? (
