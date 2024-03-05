@@ -6,6 +6,7 @@ connectDB();
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
+const messageRoutes = require("./routes/messageRoutes");
 
 const app=express();
 
@@ -13,6 +14,8 @@ app.use(express.json());
 
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
+app.use("/api/v1/message", messageRoutes);
+
 // app.get("/",(req,res)=>{
 //     res.send("<h1>Hello</h1>");
 // })
