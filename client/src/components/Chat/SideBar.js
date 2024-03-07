@@ -19,7 +19,7 @@ import {
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
-import { Avatar, AvatarBadge, AvatarGroup } from '@chakra-ui/react';
+import { Avatar, AvatarBadge, AvatarGroup, Badge } from '@chakra-ui/react';
 import ProfileModal from '../ProfileModal';
 import { useNavigate } from "react-router-dom";
 import { useDisclosure } from "@chakra-ui/hooks"; //For drawer
@@ -152,7 +152,14 @@ const SideBar = () => {
           {/* Notification */}
           <Menu>
             <MenuButton p={1}>
-              <BellIcon fontSize="3xl" m={1} />
+            {notification.length > 0 ? (
+              <Box color="blue.500">
+                <BellIcon fontSize="3xl" m={1} />
+              </Box>):
+              <Box color="black.500">
+                <BellIcon fontSize="3xl" m={1} />
+              </Box>}
+
             </MenuButton>
             <MenuList pl={2}>
               {!notification.length && "No New Messages"}

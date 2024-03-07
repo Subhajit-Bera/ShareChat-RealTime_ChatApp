@@ -28,7 +28,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [istyping, setIsTyping] = useState(false);
   const toast = useToast();
 
-  const { selectedChat, setSelectedChat, user,notification, setNotification } = ChatState();
+  const { selectedChat, setSelectedChat, user, notification, setNotification } = ChatState();
 
   const defaultOptions = {
     loop: true,
@@ -41,7 +41,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
   const fetchMessages = async () => {
     if (!selectedChat) return;
-
+    console.log(selectedChat._id);
     try {
       const config = {
         headers: {
@@ -144,8 +144,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const typingHandler = (e) => {
     setNewMessage(e.target.value);
     // Typing Indicator Login
-
-    if (!socketConnected) return;
+    if (!socketConnected || !selectedChat) return;
+    console.log(selectedChat._id);
+    socket.emit("typing-started", selectedChat._id);
 
     if (!typing) {
       setTyping(true);
@@ -233,7 +234,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             >
               {istyping ? (
                 <div>
-                  loading...
+                  <Lottie
+                    options={defaultOptions}
+                    // height={50}
+                    width={70}
+                    style={{ marginBottom: 15, marginLeft: 0 }}
+                  />
                 </div>
               ) : (
                 <></>
