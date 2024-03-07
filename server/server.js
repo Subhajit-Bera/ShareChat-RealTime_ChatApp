@@ -4,6 +4,7 @@ dotenv.config();
 const connectDB = require("./config/db");
 connectDB();
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const path = require("path");
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
@@ -16,14 +17,33 @@ app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/chat", chatRoutes);
 app.use("/api/v1/message", messageRoutes);
 
-// app.get("/",(req,res)=>{
-//     res.send("<h1>Hello</h1>");
-// })
+
+
+const __dirname1 = path.resolve();
+
+if (process.env.NODE_ENV === "development") {
+    app.use(express.static(path.join(__dirname1, '..', 'client', 'build')));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, '..', 'client', 'build', 'index.html'))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
+
+
+
+
+
+
 
 
 // Error Handling middlewares
 app.use(notFound);  //If path/route no found
 app.use(errorHandler); //other errors
+
 
 const server = app.listen(process.env.PORT || 5000, () => {
     console.log(`Server started at port:${process.env.PORT}`)
